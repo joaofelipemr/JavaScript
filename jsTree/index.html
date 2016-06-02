@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- https://www.jstree.com/ -->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>jsTree</title>
+	<!-- load the theme CSS file -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+</head>
+<body>
+	<!-- setup fuzzysearch element to find -->
+	<input id="jstree_q" type="text" />
+
+	<!-- setup a container element -->
+	<div id="jstree">
+	<!-- in this example the tree is populated from inline HTML -->
+		<ul>
+			<li>Beatles
+				<ul>
+					<li id="child_node_1">New York - USA
+						<ul>
+							<li>Ticket
+								<ul>
+									<li>Family
+										<ul>
+											<li>Amount: $ 500</li>
+											<li>Taxes:  10%</li>
+										</ul>
+									</li>
+									<li>Alone
+										<ul>
+											<li>Amount: $ 100</li>
+											<li>Taxes:  10%</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li>T-Shirt
+								<ul>
+									<li>Black and white
+										<ul>
+											<li>Amount: $ 50</li>
+											<li>Taxes:  10%</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>Sydney - AUS</li>
+					<li>Rio de Janeiro - BRA</li>
+				</ul>
+			</li>
+			<li>Rolling Stone
+				<ul>
+					<li>New York - USA</li>
+					<li>Sydney - AUS</li>
+					<li>Rio de Janeiro - BRA</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<!-- include the jQuery library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	<!-- include the minified jstree source -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+	<script>
+		$(function () {
+		// create an instance when the DOM is ready
+		$('#jstree').jstree({
+			"plugins" : [ "search" ]
+		});
+		// bind to events triggered on the tree
+		$('#jstree').on("changed.jstree", function (e, data) {
+			console.log(data.selected);
+		});
+		
+		// find event
+		var to = false;
+			$('#jstree_q').keyup(function () {
+				if(to) { clearTimeout(to); }
+				to = setTimeout(function () {
+					var v = $('#jstree_q').val();
+					$('#jstree').jstree(true).search(v);
+				}, 250);
+			});
+		});
+	</script>
+</body>
+</html>
